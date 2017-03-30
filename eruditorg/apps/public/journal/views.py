@@ -350,8 +350,7 @@ class IssueDetailView(FallbackObjectViewMixin, DetailView):
         context = super(IssueDetailView, self).get_context_data(**kwargs)
 
         context['journal'] = self.object.journal
-        context['themes'] = self.object.themes.order_by('identifier').all()
-
+        context['themes'] = self.object.erudit_object.get_themes().values()
         articles = Article.objects \
             .select_related('issue', 'issue__journal', 'issue__journal__collection') \
             .prefetch_related('authors', 'section_titles') \
